@@ -1,21 +1,16 @@
-// Declare a global variable to make cloud9 IDE stop throwing up warnings.
-/* global Phaser */
-
-
 var game = new Phaser.Game(1067, 600, Phaser.CANVAS, 'gameContainer', {
-    
+
     keys: null,
-    text1: null,
-    text2: null,
 
     preload: function() {
         game.stage.backgroundColor = '#202020';
         game.load.image('mushroom', 'images/mushroom.png'); // map the name 'mushroom' to the file URL 'images/mushroom.png'
-        game.load.image('phaser', 'images/phaser.png');
+        game.load.image('phaser', 'images/phaser.png'); // map the name 'phaser' to the file URL 'images/phaser.png'
     },
 
     create: function() {
-        // Modify the world and camera bounds
+        // Set the size of the world:
+        // topLeftCornerXCoordinate, topLeftCornerYCoordinate, widthInPixels, heightInPixels
         game.world.setBounds(-1500, -1500, 3000, 3000);
 
         // Add a bunch of mushroom sprites on the background
@@ -28,6 +23,7 @@ var game = new Phaser.Game(1067, 600, Phaser.CANVAS, 'gameContainer', {
         this.setupKeyboardInput();
     },
 
+    // Called many times per second!
     update: function() {
         if (this.keys.up.isDown || this.keys.w.isDown) {
             game.camera.y -= 6;
@@ -44,7 +40,7 @@ var game = new Phaser.Game(1067, 600, Phaser.CANVAS, 'gameContainer', {
     },
 
     // Called many times per second!
-    render: function() { 
+    render: function() {
         game.debug.cameraInfo(game.camera, 32, 32);
     },
 
@@ -72,6 +68,8 @@ var game = new Phaser.Game(1067, 600, Phaser.CANVAS, 'gameContainer', {
         };
     },
 
+    // Each of these game objects have the property fixedToCamera set to true.
+    // This will attach the object to the camera, and not the world.
     setupHUD: function() {
         var logo1 = game.add.sprite(0, 0, 'phaser');
         logo1.fixedToCamera = true;
