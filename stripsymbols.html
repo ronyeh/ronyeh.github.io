@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Strip Symbols</title>
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <style>
+            body {
+                font-family: Helvetica, Arial, sans-serif;
+                font-size: 30px;
+                margin-top:100px;
+            }
+            div {
+                margin:auto;
+                width: 300px;
+                height: 60px;
+                line-height: 60px;
+                border: 1px solid #999;
+                margin-bottom: 10px;
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        </style>
+    </head>
+<body>
+    <div contenteditable="true" id="theInput"></div>
+    <div contenteditable="true" id="theOutput"></div>
+    <script>
+    function selectText(elementID) {
+        var doc = document,
+            text = doc.getElementById(elementID),
+            range,
+            selection;    
+
+        if (doc.body.createTextRange) {
+            range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            selection = window.getSelection();        
+            range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
+
+    $(function() {
+        var $input = $("#theInput");
+        var $output = $("#theOutput");
+
+        $input.keyup(function() {
+            var inputString = $input.text();
+            var strippedString = inputString.replace(/[^\w\s]/gi, ''); // remove everything except words & whitespace
+            $output.text(strippedString);
+        });
+
+        $output.focus(function() {
+            selectText('theOutput');
+        });
+    });
+    </script>
+</body>
+</html>
